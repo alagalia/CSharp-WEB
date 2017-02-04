@@ -1,0 +1,6 @@
+body {
+    background-image: url("./../images/pizza_1.jpg");
+}
+#signInBtn {
+    width: 80px;
+}
