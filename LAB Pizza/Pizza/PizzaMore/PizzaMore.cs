@@ -2,7 +2,7 @@
 
 namespace PizzaMore
 {
-    class Program
+    class PizzaMore
     {
         static void Main()
         {

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SignIn
 {
-    class Program
+    class SignIn
     {
         static void Main(string[] args)
         {
