@@ -21,12 +21,8 @@ namespace SignUp
             if (WebUtil.IsPost())
             {
                 RegisterUser();
-            }
+            } 
             ShowPage();
-
-
-            PmContext c = new PmContext();
-            Console.WriteLine(c.Users.Count());
         }
 
         private static void ShowPage()

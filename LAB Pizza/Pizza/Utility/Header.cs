@@ -5,15 +5,18 @@ namespace Utility
 {
     public class Header
     {
-        public Header()
-        {
-            this.Type = "Content-type: text/html\r\n";
-            Cookies = new CookieCollection();
-        }
         public string Type { get; set; }
+
         public string Location { get; private set; }
 
         public ICookieCollection Cookies { get; private set; }
+
+        public Header()
+        {
+            this.Type = "Content-type: text/html";
+            Cookies = new CookieCollection();
+        }
+        
 
         public void AddLocation(string location)
         {
@@ -29,7 +32,7 @@ namespace Utility
         {
             StringBuilder sb = new StringBuilder();
             sb.AppendLine(this.Type);
-            if (Cookies.Count > 0)
+            if (Cookies.Count != 0)
             {
                 foreach (Cookie cookie in this.Cookies)
                 {

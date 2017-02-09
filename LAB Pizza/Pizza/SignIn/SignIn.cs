@@ -3,50 +3,57 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using PizzaMore.Data;
+using PizzaMore.Data.Models;
+using Utility;
 
 namespace SignIn
 {
     class SignIn
     {
-        static void Main(string[] args)
+        public static IDictionary<string, string> RequestParameters;
+        public static Header Header = new Header();
+        public static int Incrementor = 1;
+
+        static void Main()
         {
-            Console.WriteLine("Content-type: text/html\r\n");
-            Console.WriteLine(@"<!DOCTYPE html>
-<html lang=""en"">
-<head>
-	<meta charset=""UTF-8"">
-	<title>Sign In</title>
-	<link rel=""stylesheet"" href=""/bootstrap/css/bootstrap.css"">
-	<link rel=""stylesheet"" href=""/css/signIn.css"">
-</head>
-<body>
-	<div class=""container"">
-		<div class=""jumbotron centered"">
-			<form class=""form-horizontal "" method=""POST"" align=""center"">
-				<div class=""form-group"">
-					<div class=""col-sm-4 col-sm-offset-4"">
-						<input type=""email"" class=""form-control"" name=""signUpEmail"" placeholder=""Enter your email""/>
-					</div>
-				</div>
-				<div class=""form-group"">
-					<div class=""col-sm-4 col-sm-offset-4"">
-						<input type=""password"" class=""form-control"" name=""signUpPass"" placeholder=""Enter your password""/>
-					</div>
-				</div>
-				<div class=""checkbox col-sm-4 col-sm-offset-4"">
-					<label><input type=""checkbox"" value="""">Remember me</label>
-				</div>
-				<div class=""form-group"" >
-					<div class=""col-sm-offset-5 col-sm-4"">
-						<a href=""PizzaMore.exe"" class=""btn btn-danger"">Go back</a>
-						<input class=""btn btn-success"" id=""signInBtn"" value=""Sign In"">
-					</div>
-				</div>
-			</form>
-		</div>
-	</div>
-</body>
-</html>");
+            if (WebUtil.IsPost())
+            {
+                TryLogInUser();
+            }
+            ShowPage();
+        }
+
+        private static void TryLogInUser()
+        {
+            RequestParameters = WebUtil.RetrievePostParameters();
+            string email = RequestParameters["email"];
+            string password = PasswordHasher.Hash(RequestParameters["password"]);
+            using (var context = new PmContext())
+            {
+                User desiredUser = context.Users.SingleOrDefault(user => user.Email == email);
+                if (desiredUser.Password == password)
+                {
+                    Session session = new Session()
+                    {
+                        Id = (Incrementor+1)+ "ses",
+                        User = desiredUser
+                    }; 
+                    session.User = desiredUser;
+                    if (desiredUser != null)
+                    {
+                        Header.AddCookie(new Cookie("sid", session.Id.ToString()));
+                    }
+                    context.Sessions.Add(session);
+                    context.SaveChanges();
+                }
+            }
+        }
+
+        private static void ShowPage()
+        {
+            Header.Print();
+            WebUtil.PrintFileContent(Constants.SignIn);
         }
     }
 }

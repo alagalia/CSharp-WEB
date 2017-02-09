@@ -9,14 +9,19 @@ namespace Home
     internal class Home
     {
         private static IDictionary<string, string> RequestParameters;
+
         private static Session Session;
+
         private static Header Header = new Header();
+
         private static string Language;
+
 
         static void Main()
         {
 
             AddDefaultLanguageCookie();
+
             if (WebUtil.IsGet())
             {
                 RequestParameters = WebUtil.RetrieveGetParameters();
@@ -27,8 +32,7 @@ namespace Home
             else if (WebUtil.IsPost())
             {
                 RequestParameters = WebUtil.RetrievePostParameters();
-                Cookie newCookie = new Cookie("lang", RequestParameters["language"]);
-                Header.AddCookie(newCookie);
+                Header.AddCookie(new Cookie("lang", RequestParameters["language"]));
                 Language = RequestParameters["language"];
             }
 
@@ -37,23 +41,26 @@ namespace Home
 
         public static void AddDefaultLanguageCookie()
         {
-            if (!WebUtil.GetCookies().ContainsKey("lang"))
+            var cookies = WebUtil.GetCookies();
+            if (!cookies.ContainsKey("lang"))
             {
                 Header.AddCookie(new Cookie("lang", "EN"));
                 Language = "EN";
             }
+            ShowPage();
         }
 
         private static void ShowPage()
         {
-            Header.Print();
             
             if (Language == "EN")
             {
-                WebUtil.PrintFileContent(Constants.HomePageEN);
+                Header.Print();
+                WebUtil.PrintFileContent("../../htdocs/pm/home.html");
             }
-            else 
+            else if (Language == "DE")
             {
+                Header.Print();
                 WebUtil.PrintFileContent("../../htdocs/pm/home-de.html");
             }
         }
