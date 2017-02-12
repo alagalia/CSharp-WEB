@@ -11,5 +11,7 @@
         public static readonly string HomePageBG = "../../htdocs/pm/home-de.html";
         public static readonly string SignIn = "../../htdocs/pm/signin.html";
         public static readonly string Menu = "../../htdocs/pm/menu.html";
+        public static readonly string MenuTop = "../../htdocs/pm/menu-top.html";
+        public static readonly string MenuBottom = "../../htdocs/pm/menu-bottom.html";
     }
 }

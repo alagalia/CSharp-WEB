@@ -13,7 +13,6 @@ namespace SignIn
     {
         public static IDictionary<string, string> RequestParameters;
         public static Header Header = new Header();
-        public static int Incrementor = 1;
 
         static void Main()
         {
@@ -34,9 +33,12 @@ namespace SignIn
                 User desiredUser = context.Users.SingleOrDefault(user => user.Email == email);
                 if (desiredUser.Password == password)
                 {
+                    Random random = new Random();
+                    int randomNumber = random.Next(0, 1000);
+
                     Session session = new Session()
                     {
-                        Id = (Incrementor+1)+ "ses",
+                        Id = (randomNumber)+ "ses",
                         User = desiredUser
                     }; 
                     session.User = desiredUser;

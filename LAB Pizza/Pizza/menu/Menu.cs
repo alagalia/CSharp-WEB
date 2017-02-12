@@ -3,72 +3,103 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using PizzaMore.Data;
+using PizzaMore.Data.Models;
+using Utility;
 
 namespace menu
 {
     class Menu
     {
-        static void Main(string[] args)
-        {
-            Console.WriteLine("Content-type: text/html\r\n");
-            Console.WriteLine(@"<!DOCTYPE html>
-<html lang=""en"">
-<head>
-	<meta charset=""UTF-8"">
-	<title>Menu</title>
-	<meta name=""viewport"" content=""width=device-width, initial-scale=1"">
-	<link rel=""stylesheet"" href=""/bootstrap/css/bootstrap.css"">
-	<link rel=""stylesheet"" href=""/css/menu.css"">
-</head>
-<body>
-	<div class=""container"">
-		<div class=""jumbotron"">
-		    <div class=""row"">
-		    	<div class=""col-sm-2"">
-		    		<div class=""caption"">
-		    			<h4 class=""text-center"">Lorem ipsum dolor sit amet.</h4>
-		    			<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Odio sit, cum quam consequuntur repellendus, delectus accusantium! Debitis sed repellat numquam.</p>
-		    		</div>
-		    	</div>
-		    	<div class=""col-sm-2"">
-		    		<div class=""caption"">
-		    			<h4 class=""text-center"">Placeat numquam deleniti itaque officiis.</h4>
-		    			<p>Beatae temporibus, voluptate repellendus iusto sapiente laudantium numquam reprehenderit quaerat nemo doloremque aut, tempora dolores id eius ea est voluptatem.</p>
-		    		</div>
-		    	</div>
-		    	<div class=""col-sm-2"">
-		    		<div class=""caption"">
-		    			<h4 class=""text-center"">Cupiditate vero aliquam, id dolores.</h4>
-		    			<p>Vel quas nihil est maiores eaque maxime laudantium repellat molestias saepe, iste nisi, aliquid, sit molestiae voluptates odit nemo quidem.</p>
-		    		</div>
-		    	</div>
-		    	<div class=""col-sm-2"">
-		    		<div class=""caption"">
-		    			<h4 class=""text-center"">Enim eos eaque dolore officiis.</h4>
-		    			<p>Iure eveniet modi possimus minima ratione maxime, sint hic deleniti voluptate. Praesentium repudiandae officia placeat possimus nobis cumque accusantium quae.</p>
-		    		</div>
-		    	</div>
-		    	<div class=""col-sm-2"">
-		    		<div class=""caption"">
-		    			<h4 class=""text-center"">Illo deserunt veniam, iste consequatur.</h4>
-		    			<p>Possimus cumque officia vero totam labore blanditiis nemo, consequuntur culpa itaque reprehenderit nesciunt, ad quidem officiis sint ipsum! A, laudantium.</p>
-		    		</div>
-		    	</div>
-		    	<div class=""col-sm-2"">
-		    		<div class=""caption"">
-		    			<h4 class=""text-center"">Aut natus expedita incidunt labore.</h4>
-		    			<p>Voluptatum obcaecati ipsa, laborum odit dolorem accusamus laudantium doloremque ratione non molestias soluta dignissimos, eos incidunt explicabo asperiores. Provident, expedita.</p>
-		    		</div>
-		    	</div>
-		    </div>
-		</div>		  
-	</div>
+        private static Session Session;
+        private static IDictionary<string, string> RequestParameters;
+        private static Header Header = new Header();
 
-	
-	<script type=""text/javascript"" src=""/jquery/jquery.js""></script>
-	<script type=""text/javascript"" src=""/bootstrap/js/bootstrap.js""></script>
-</body>
-</html>");
+        static void Main()
+        {
+            Session = WebUtil.GetSession();
+            if (Session != null)
+            {
+                if (WebUtil.IsGet())
+                {
+                    ShowPage();
+                }
+                else if (WebUtil.IsPost())
+                {
+                    //VoteForPizza();
+                    //ShowPage();
+                }
+            }
+            else
+            {
+                Header.Print();
+                WebUtil.PageNotAllowed();
+            }
+        }
+
+        private static void VoteForPizza()
+        {
+            RequestParameters = WebUtil.RetrievePostParameters();
+            string voteType = RequestParameters["pizzaVote"];
+            int pizzaId = int.Parse(RequestParameters["pizzaid"]);
+            using (var context = new PmContext())
+            {
+                Pizza pizza = context.Pizzas.Find(pizzaId);
+                if (voteType.ToLower() == "up")
+                    pizza.UpVotes++;
+                else if (voteType.ToLower() == "down")
+                    pizza.DownVotes++;
+                context.SaveChanges();
+            }
+        }
+
+        private static void ShowPage()
+        {
+            Header.Print();
+            GenerateNavbar();
+            WebUtil.PrintFileContent(Constants.MenuTop);
+            GenerateAllSuggestions();
+            WebUtil.PrintFileContent(Constants.MenuBottom);
+        }
+
+        private static void GenerateAllSuggestions()
+        {
+            PmContext context = new PmContext();
+            var pizzas = context.Pizzas;
+            Console.WriteLine("<div class=\"card-deck\">");
+            foreach (var pizza in pizzas)
+            {
+                Console.WriteLine("<div class=\"card\">");
+                Console.WriteLine($"<img class=\"card-img-top\" src=\"{pizza.ImageUrl}\" width=\"200px\"alt=\"Card image cap\">");
+                Console.WriteLine("<div class=\"card-block\">"); Console.WriteLine($"<h4 class=\"card-title\">{pizza.Title}</h4>");
+                Console.WriteLine($"<p class=\"card-text\"><a href=\"DetailsPizza.exe?pizzaid={pizza.Id}\">Recipe</a></p>");
+                Console.WriteLine("<form method=\"POST\">");
+                Console.WriteLine($"<div class=\"radio\"><label><input type = \"radio\" name=\"pizzaVote\" value=\"up\">Up</label></div>"); Console.WriteLine($"<div class=\"radio\"><label><input type = \"radio\" name=\"pizzaVote\" value=\"down\">Down</label></div>"); Console.WriteLine($"<input type=\"hidden\" name=\"pizzaid\" value=\"{pizza.Id}\" />");
+                Console.WriteLine("<input type=\"submit\" class=\"btn btn-primary\" value=\"Vote\" />");
+                Console.WriteLine("</form>");
+                Console.WriteLine("</div>");
+                Console.WriteLine("</div>");
+            }
+            Console.WriteLine("</div>");
+        }
+
+        private static void GenerateNavbar()
+        {
+            Console.WriteLine("<nav class=\"navbar navbar-default\">" +
+                "<div class=\"container-fluid\">" +
+                "<div class=\"navbar-header\">" +
+                "<a class=\"navbar-brand\" href=\"Home.exe\">PizzaMore</a>" +
+                "</div>" +
+                "<div class=\"collapse navbar-collapse\" id=\"bs-example-navbar-collapse-1\">" +
+                "<ul class=\"nav navbar-nav\">" +
+                "<li ><a href=\"AddPizza.exe\">Suggest Pizza</a></li>" +
+                "<li><a href=\"YourSuggestions.exe\">Your Suggestions</a></li>" +
+                "</ul>" +
+                "<ul class=\"nav navbar-nav navbar-right\">" +
+                "<p class=\"navbar-text navbar-right\"></p>" +
+                "<p class=\"navbar-text navbar-right\"><a href=\"Home.exe?logout=true\" class=\"navbar-link\">Sign Out</a></p>" +
+                $"<p class=\"navbar-text navbar-right\">Signed in as {Session.User.Email}</p>" +
+                "</ul> </div></div></nav>");
         }
     }
 }

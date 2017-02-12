@@ -84,24 +84,20 @@ namespace Utility
             Cookie sessionIdCookie = cookies[Constants.SessionIdKey];
             PmContext context = new PmContext();
             Session session = context.Sessions.FirstOrDefault(s => s.Id == sessionIdCookie.Value);
+            Logger.Log("SessionId " + session.Id);
+            Logger.Log("UserForSession " + session.User);
             return session;
         }
 
         public static void PageNotAllowed()
         {
-            PrintFileContent("./game/index.html");
+            PrintFileContent("../../htdocs/pm/game/index.html");
         }
 
         public static void PrintFileContent(string path)
         {
             string readDataFormFile = File.ReadAllText(path);
-            //Logger.Log(readDataFormFile);
             Console.WriteLine(readDataFormFile);
         }
-
-
-        
-
-       
     }
 }
