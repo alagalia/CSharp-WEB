@@ -26,8 +26,8 @@ namespace menu
                 }
                 else if (WebUtil.IsPost())
                 {
-                    //VoteForPizza();
-                    //ShowPage();
+                    VoteForPizza();
+                    ShowPage();
                 }
             }
             else

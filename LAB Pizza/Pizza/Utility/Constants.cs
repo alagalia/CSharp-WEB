@@ -13,5 +13,8 @@
         public static readonly string Menu = "../../htdocs/pm/menu.html";
         public static readonly string MenuTop = "../../htdocs/pm/menu-top.html";
         public static readonly string MenuBottom = "../../htdocs/pm/menu-bottom.html";
+        public static readonly string Addpizza = "../../htdocs/pm/addpizza.html";
+        public static readonly string YoursuggestionsTop = "../../htdocs/pm/yoursuggestions-top.html";
+        public static readonly string YoursuggestionsBottom = "../../htdocs/pm/yoursuggestions-bottom.html";
     }
 }

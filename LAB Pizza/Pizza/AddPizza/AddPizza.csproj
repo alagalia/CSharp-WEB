@@ -4,15 +4,17 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{5BF519A4-64D9-48E9-8C01-365B7C9EDFB4}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <ProjectGuid>{CCD43FE4-C607-4CBC-B629-63B561AE8A23}</ProjectGuid>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>PizzaMore.Data</RootNamespace>
-    <AssemblyName>PizzaMore.Data</AssemblyName>
+    <RootNamespace>AddPizza</RootNamespace>
+    <AssemblyName>AddPizza</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -22,6 +24,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -41,8 +44,6 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.Security" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -51,15 +52,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Migrations\201702090436209_InitialCreate.cs" />
-    <Compile Include="Migrations\201702090436209_InitialCreate.Designer.cs">
-      <DependentUpon>201702090436209_InitialCreate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="Models\Pizza.cs" />
-    <Compile Include="Models\Session.cs" />
-    <Compile Include="Models\User.cs" />
-    <Compile Include="PmContext.cs" />
+    <Compile Include="AddPizza.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -67,9 +60,14 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201702090436209_InitialCreate.resx">
-      <DependentUpon>201702090436209_InitialCreate.cs</DependentUpon>
-    </EmbeddedResource>
+    <ProjectReference Include="..\PizzaMore.Data\PizzaMore.Data.csproj">
+      <Project>{5BF519A4-64D9-48E9-8C01-365B7C9EDFB4}</Project>
+      <Name>PizzaMore.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utility\PizzaMore.Utilities.csproj">
+      <Project>{BABFDBB5-DCEC-40A1-8E6E-98924BDA506C}</Project>
+      <Name>PizzaMore.Utilities</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

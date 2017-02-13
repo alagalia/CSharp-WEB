@@ -25,7 +25,7 @@ namespace Home
             if (WebUtil.IsGet())
             {
                 RequestParameters = WebUtil.RetrieveGetParameters();
-                //TryLogOut();
+                TryLogOut();
                 Language = WebUtil.GetCookies()["lang"].Value;
 
             }
@@ -37,6 +37,23 @@ namespace Home
             }
 
             ShowPage();
+        }
+
+        private static void TryLogOut()
+        {
+            if (RequestParameters.ContainsKey("logout"))
+            {
+                if (RequestParameters["logout"] == "true")
+                {
+                    Session = WebUtil.GetSession();
+                    using (var context = new PmContext())
+                    {
+                        var s = context.Sessions.Find(Session.Id);
+                        context.Sessions.Remove(s);
+                        context.SaveChanges();
+                    }
+                }
+            }
         }
 
         public static void AddDefaultLanguageCookie()
