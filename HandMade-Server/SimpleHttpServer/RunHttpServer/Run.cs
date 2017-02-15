@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,7 +23,7 @@ namespace RunHttpServer
                     Method = RequestMethod.GET,
                     Callable = (HttpRequest request) => new HttpResponse()
                     {
-                        ContentAsUTF8 = "<h1> Hello from HttpServer!</h3>",
+                        ContentAsUTF8 = File.ReadAllText("../../content/home.html"),
                         StatusCode = ResponseStatusCode.OK
                     }
                 }

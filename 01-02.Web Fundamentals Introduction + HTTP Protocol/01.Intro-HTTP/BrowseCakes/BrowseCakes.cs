@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 
 namespace BrowseCakes
 {
@@ -19,13 +20,11 @@ namespace BrowseCakes
 
             string[] csv = File.ReadAllLines(@"../htdocs/files/cakes.csv");
             //Console.WriteLine(string.Join(",", csv));
-            foreach (string row in csv)
+            var matchedCakes = csv.Where(d => d.ToLower().Contains(searchedCake.ToLower()));
+            foreach (string row in matchedCakes)
             {
-                if (row.ToLower().Contains(searchedCake.ToLower()))
-                {
-                    string[] cake = row.Split(';');
-                    Console.WriteLine($@"<p>{cake[0]} ${cake[1]}</p>");
-                }
+                string[] cake = row.Split(';');
+                Console.WriteLine($@"<p>{cake[0]} ${cake[1]}</p>");
             }
         }
     }

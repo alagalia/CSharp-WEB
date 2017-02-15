@@ -17,13 +17,15 @@ namespace AddCake
             string stream = File.ReadAllText(pathForHTML);
             Console.WriteLine("Content-type: text/html\r\n");
             Console.WriteLine(stream);
-           
-            string addedInfoForCake = Environment.GetEnvironmentVariable("QUERY_STRING");
+            //Console.WriteLine(Console.ReadLine());
+
+            //string addedInfoForCake = Environment.GetEnvironmentVariable("QUERY_STRING");
+            string addedInfoForCake = Console.ReadLine();
             if (!string.IsNullOrEmpty(addedInfoForCake))
             {
                 AddCakeToDb(addedInfoForCake);
             }
-            
+
 
         }
 
@@ -31,8 +33,8 @@ namespace AddCake
         {
             string name = string.Empty;
             double price = 0;
-            string[] requestInfo = addedInfoForCake.Split('&');
-            foreach (string req in requestInfo)
+            string[] variables = addedInfoForCake.Split('&');
+            foreach (string req in variables)
             {
                 if (req.ToLower().Contains("name"))
                 {
@@ -44,7 +46,7 @@ namespace AddCake
                 }
 
             }
-            string row = Environment.NewLine + $"{name};{price}";
+            string row = $"{name};{price}" + Environment.NewLine;
             File.AppendAllText(@"../htdocs/files/cakes.csv", row);
 
         }
