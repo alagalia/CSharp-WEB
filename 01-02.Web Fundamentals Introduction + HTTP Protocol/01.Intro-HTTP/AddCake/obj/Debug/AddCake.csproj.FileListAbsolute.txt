@@ -1,6 +1,0 @@
-D:\SOFTUNI-C#\C#WEB\01-02.Web Fundamentals Introduction + HTTP Protocol\01.Intro-HTTP\AddCake\bin\Debug\AddCake.exe.config
-D:\SOFTUNI-C#\C#WEB\01-02.Web Fundamentals Introduction + HTTP Protocol\01.Intro-HTTP\AddCake\bin\Debug\AddCake.exe
-D:\SOFTUNI-C#\C#WEB\01-02.Web Fundamentals Introduction + HTTP Protocol\01.Intro-HTTP\AddCake\bin\Debug\AddCake.pdb
-D:\SOFTUNI-C#\C#WEB\01-02.Web Fundamentals Introduction + HTTP Protocol\01.Intro-HTTP\AddCake\obj\Debug\AddCake.csprojResolveAssemblyReference.cache
-D:\SOFTUNI-C#\C#WEB\01-02.Web Fundamentals Introduction + HTTP Protocol\01.Intro-HTTP\AddCake\obj\Debug\AddCake.exe
-D:\SOFTUNI-C#\C#WEB\01-02.Web Fundamentals Introduction + HTTP Protocol\01.Intro-HTTP\AddCake\obj\Debug\AddCake.pdb

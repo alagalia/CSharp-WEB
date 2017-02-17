@@ -1,6 +1,0 @@
-D:\SOFTUNI-C#\C#WEB\01-02.Web Fundamentals Introduction + HTTP Protocol\01.Intro-HTTP\1. BytheCake\bin\Debug\_1.BytheCake.exe.config
-D:\SOFTUNI-C#\C#WEB\01-02.Web Fundamentals Introduction + HTTP Protocol\01.Intro-HTTP\1. BytheCake\bin\Debug\_1.BytheCake.exe
-D:\SOFTUNI-C#\C#WEB\01-02.Web Fundamentals Introduction + HTTP Protocol\01.Intro-HTTP\1. BytheCake\bin\Debug\_1.BytheCake.pdb
-D:\SOFTUNI-C#\C#WEB\01-02.Web Fundamentals Introduction + HTTP Protocol\01.Intro-HTTP\1. BytheCake\obj\Debug\_1.BytheCake.exe
-D:\SOFTUNI-C#\C#WEB\01-02.Web Fundamentals Introduction + HTTP Protocol\01.Intro-HTTP\1. BytheCake\obj\Debug\_1.BytheCake.pdb
-D:\SOFTUNI-C#\C#WEB\01-02.Web Fundamentals Introduction + HTTP Protocol\01.Intro-HTTP\1. BytheCake\bin\Debug\HomeCake.exe.config

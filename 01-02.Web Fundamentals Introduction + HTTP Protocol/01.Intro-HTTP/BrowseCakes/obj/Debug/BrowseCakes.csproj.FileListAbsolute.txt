@@ -1,6 +1,0 @@
-D:\SOFTUNI-C#\C#WEB\01-02.Web Fundamentals Introduction + HTTP Protocol\01.Intro-HTTP\BrowseCakes\bin\Debug\BrowseCakes.exe.config
-D:\SOFTUNI-C#\C#WEB\01-02.Web Fundamentals Introduction + HTTP Protocol\01.Intro-HTTP\BrowseCakes\bin\Debug\BrowseCakes.exe
-D:\SOFTUNI-C#\C#WEB\01-02.Web Fundamentals Introduction + HTTP Protocol\01.Intro-HTTP\BrowseCakes\bin\Debug\BrowseCakes.pdb
-D:\SOFTUNI-C#\C#WEB\01-02.Web Fundamentals Introduction + HTTP Protocol\01.Intro-HTTP\BrowseCakes\obj\Debug\BrowseCakes.exe
-D:\SOFTUNI-C#\C#WEB\01-02.Web Fundamentals Introduction + HTTP Protocol\01.Intro-HTTP\BrowseCakes\obj\Debug\BrowseCakes.pdb
-D:\SOFTUNI-C#\C#WEB\01-02.Web Fundamentals Introduction + HTTP Protocol\01.Intro-HTTP\BrowseCakes\obj\Debug\BrowseCakes.csprojResolveAssemblyReference.cache
