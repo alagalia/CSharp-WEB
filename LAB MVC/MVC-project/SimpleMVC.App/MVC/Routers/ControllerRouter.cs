@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Reflection;
+using SimpleHttpServer.Enums;
 using SimpleHttpServer.Models;
 using SimpleMVC.App.MVC.Attributies.Methods;
 using SimpleMVC.App.MVC.Controllers;
@@ -18,7 +19,7 @@ namespace SimpleMVC.App.MVC.Routers
         private string requestMethod;
         private string controllerName;
         private string actionName;
-        private string[] methodParams;
+        private object[] methodParams;
 
         private string[] controllerActionParams;
 
@@ -28,9 +29,22 @@ namespace SimpleMVC.App.MVC.Routers
             this.postParams = new Dictionary<string, string>();
         }
 
+
         public HttpResponse Handle(HttpRequest request)
         {
             this.ParseRequest(request);
+            var method = this.GetMethod();
+            var controller = this.GetController();
+
+            //Invoke Action Method
+            IInvocable actionResult = (IInvocable)method.Invoke(controller, this.methodParams);
+            string content = actionResult.Invoke();
+            var response = new HttpResponse()
+            {
+                StatusCode = ResponseStatusCode.Ok,
+                ContentAsUTF8 = content
+            };
+            return response;
         }
 
         private void ParseRequest(HttpRequest request)
@@ -88,9 +102,56 @@ namespace SimpleMVC.App.MVC.Routers
 
             if (method == null)
             {
-                throw new Exception("'Nos such method");
+                throw new Exception("'No such method");
             }
 
+
+            //prepare method parameter
+            IEnumerable<ParameterInfo> parameters = method.GetParameters();
+
+            this.methodParams = new object[parameters.Count()];
+
+            int index = 0;
+            foreach (ParameterInfo param in parameters)
+            {
+                if (param.ParameterType.IsPrimitive)
+                {
+                    object value = this.getParams[param.Name];
+                    this.methodParams[index] = Convert.ChangeType(
+                        value,
+                        param.ParameterType
+                        );
+                    index++;
+                }
+                else
+                {
+                    Type bindingModelType = param.ParameterType;
+                    object bindingModel =
+                        Activator.CreateInstance(bindingModelType);
+
+                    IEnumerable<PropertyInfo> properties
+                        = bindingModelType.GetProperties();
+
+                    foreach (PropertyInfo property in properties)
+                    {
+                        property.SetValue(
+                            bindingModel,
+                            Convert.ChangeType(
+                                postParams[property.Name],
+                                property.PropertyType
+                                )
+                            );
+                    }
+
+                    this.methodParams[index] = Convert.ChangeType(
+                        bindingModel,
+                        bindingModelType
+                        );
+                    index++;
+                }
+            }
+
+            
         }
 
         private MethodInfo GetMethod()
@@ -118,10 +179,10 @@ namespace SimpleMVC.App.MVC.Routers
 
         private IEnumerable<MethodInfo> GetSuitableMethod()
         {
-            return this.GetControler().GetType().GetMethods().Where(m => m.Name == this.actionName);
+            return this.GetController().GetType().GetMethods().Where(m => m.Name == this.actionName);
         }
 
-        private Controller GetControler()
+        private Controller GetController()
         {
             var controllerType =
                 $"{MvcContext.Current.AssemblyName}.{MvcContext.Current.ControllersFolder}.{this.controllerName}";
@@ -133,5 +194,7 @@ namespace SimpleMVC.App.MVC.Routers
         {
             return str[0].ToString().ToUpper() + str.Substring(1);
         }
+
+       
     }
 }
