@@ -1,0 +1,13 @@
+form {
+    background-color: #EEE; line-height:1.5em;
+    width: 320px;
+}
+
+span {
+    display: inline-block;
+    width: 160px;
+}
+
+input, select {
+    width: 120px
+}
