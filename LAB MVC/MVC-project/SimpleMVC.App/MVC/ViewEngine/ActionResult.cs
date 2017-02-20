@@ -15,5 +15,7 @@ namespace SimpleMVC.App.MVC.ViewEngine
         }
 
         public IRenderable Action { get; set; }
+
+        public string Location { get; }
     }
 }

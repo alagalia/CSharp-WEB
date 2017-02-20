@@ -9,8 +9,7 @@ namespace SimpleMVC.App.Migrations
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = false;
-            ContextKey = "SimpleMVC.App.Data.NoteAppContext";
+            AutomaticMigrationsEnabled = true;
         }
 
         protected override void Seed(SimpleMVC.App.Data.NoteAppContext context)

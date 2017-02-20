@@ -106,6 +106,8 @@ namespace SimpleMVC.App.Controllers
             if (this.SignInManager.IsAuthenticated(session))
             {
                 //TODO redirect
+                //List<AllUserLinksViewModel> list = new List<AllUserLinksViewModel>();
+                //return Redirect(list.AsEnumerable(), "/users/login");
             }
             Dictionary<int, string> nameIdDictionary = new Dictionary<int, string>();
             using (var context = new NoteAppContext())

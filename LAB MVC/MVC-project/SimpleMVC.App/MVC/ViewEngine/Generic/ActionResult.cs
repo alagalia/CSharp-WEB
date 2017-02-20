@@ -17,5 +17,6 @@ namespace SimpleMVC.App.MVC.ViewEngine.Generic
             return this.Action.Render();
         }
 
+        public string Location { get; }
     }
 }

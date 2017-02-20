@@ -60,6 +60,7 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Login.cs" />
     <Compile Include="MVC\Interfaces\IDbIdentityContext.cs" />
+    <Compile Include="MVC\Interfaces\IRedirectable.cs" />
     <Compile Include="MVC\Security\SignInManager.cs" />
     <Compile Include="ViewModels\AllUserLinksViewModel.cs" />
     <Compile Include="ViewModels\GreetViewModel.cs" />
