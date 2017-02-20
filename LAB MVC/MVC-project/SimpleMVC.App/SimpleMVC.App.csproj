@@ -56,11 +56,11 @@
   <ItemGroup>
     <Compile Include="AppStart.cs" />
     <Compile Include="BindingModels\AddNoteBindingModel.cs" />
-    <Compile Include="Migrations\201702181520522_InitialCreate.cs" />
-    <Compile Include="Migrations\201702181520522_InitialCreate.Designer.cs">
-      <DependentUpon>201702181520522_InitialCreate.cs</DependentUpon>
-    </Compile>
+    <Compile Include="BindingModels\LoginUserBindingModel.cs" />
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\Login.cs" />
+    <Compile Include="MVC\Interfaces\IDbIdentityContext.cs" />
+    <Compile Include="MVC\Security\SignInManager.cs" />
     <Compile Include="ViewModels\AllUserLinksViewModel.cs" />
     <Compile Include="ViewModels\GreetViewModel.cs" />
     <Compile Include="ViewModels\NoteViewModel.cs" />
@@ -92,17 +92,13 @@
     <Compile Include="Views\Home\Index.cs" />
     <Compile Include="Views\Users\All.cs" />
     <Compile Include="Views\Users\Greet.cs" />
+    <Compile Include="Views\Users\Login.cs" />
     <Compile Include="Views\Users\Profile.cs" />
     <Compile Include="Views\Users\Register.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201702181520522_InitialCreate.resx">
-      <DependentUpon>201702181520522_InitialCreate.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SimpleHttpServer\SimpleHttpServer.csproj">

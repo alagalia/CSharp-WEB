@@ -13,21 +13,15 @@ namespace SimpleMVC.App.Data
         public NoteAppContext()
             : base("name=NoteAppContext")
         {
+           
         }
 
-        public virtual DbSet<Login> Logins { get; }
+        public virtual DbSet<Login> Logins { get; set; }
         public virtual DbSet<User> Users { get; set; }
-        public void SaveChanges()
-        {
-            base.SaveChanges();
-        }
-
+        //public void SaveChanges()
+        //{
+        //    base.SaveChanges();
+        //}
         public virtual DbSet<Note> Notes { get; set; }
     }
-
-    //public class MyEntity
-    //{
-    //    public int Id { get; set; }
-    //    public string Name { get; set; }
-    //}
 }

@@ -8,12 +8,20 @@ using SimpleMVC.App.MVC.Attributies.Methods;
 using SimpleMVC.App.MVC.Controllers;
 using SimpleMVC.App.MVC.Interfaces;
 using SimpleMVC.App.MVC.Interfaces.Generic;
+using SimpleMVC.App.MVC.Security;
 using SimpleMVC.App.ViewModels;
 
 namespace SimpleMVC.App.Controllers
 {
     public class UsersController : Controller
     {
+        public SignInManager SignInManager { get; set; }
+
+        public UsersController()
+        {
+            this.SignInManager = new SignInManager(new NoteAppContext());
+        }
+
         [HttpGet]
         public IActionResult Register()
         {
@@ -38,6 +46,42 @@ namespace SimpleMVC.App.Controllers
             return View();
         }
 
+        [HttpGet]
+        public IActionResult Login()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Login(LoginUserBindingModel model, HttpSession session)
+        {
+            string username = model.Username;
+            string password = model.Password;
+            string sessionId = session.Id;
+
+
+            using (var context = new NoteAppContext())
+            {
+                User user = context.Users.SingleOrDefault(u => u.UserName == username);
+                if (user != null)
+                {
+                    if (user.Password == password)
+                    {
+                        context.Logins.Add(new Login() { IsActive = true, SessionId = sessionId, User = user });
+                        try
+                        {
+                            context.SaveChanges();
+                        }
+                        catch (System.Exception x)
+                        {
+                            System.Console.WriteLine(x);
+                        }
+                    }
+                }
+            }
+            return View();
+        }
+
         //[HttpGet]
         //public IActionResult<AllUsernamesViewModel> All()
         //{
@@ -57,8 +101,12 @@ namespace SimpleMVC.App.Controllers
         //}
 
         [HttpGet]
-        public IActionResult<AllUserLinksViewModel> All()
+        public IActionResult<AllUserLinksViewModel> All(HttpSession session)
         {
+            if (this.SignInManager.IsAuthenticated(session))
+            {
+                //TODO redirect
+            }
             Dictionary<int, string> nameIdDictionary = new Dictionary<int, string>();
             using (var context = new NoteAppContext())
             {
