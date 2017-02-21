@@ -7,7 +7,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Reflection;
-using SimpleMVC.App.MVC.Attributies.Methods;
+using SimpleMVC.App.MVC.Attributes.Methods;
+using SimpleMVC.App.MVC.Extensions;
 
 namespace SimpleMVC.App.MVC.Routers
 {
@@ -22,28 +23,39 @@ namespace SimpleMVC.App.MVC.Routers
 
         private string[] controllerActionParams;
         private string[] controllerAction;
+
+        private HttpRequest request;
+        private HttpResponse response;
+
         public ControllerRouter()
         {
             this.getParams = new Dictionary<string, string>();
             this.postParams = new Dictionary<string, string>();
+            this.request = new HttpRequest();
+            this.response = new HttpResponse();
         }
         public HttpResponse Handle(HttpRequest request)
         {
-            this.ParseInput(request);
+            this.request = request;
+            this.response = new HttpResponse();
+            this.ParseInput();
             //TODO check if there is session with given id and execute the method only if user is authorised
 
-            var method = this.GetMethod();
-            var controller = this.GetController();
             IInvocable result =
-                (IInvocable)method
-                .Invoke(controller, this.methodParams);
+               (IInvocable)this.GetMethod()
+               .Invoke(this.GetController(), this.methodParams);
 
-            string content = result.Invoke();
-            var response = new HttpResponse()
+            if (string.IsNullOrEmpty(response.Header.Location))
             {
-                ContentAsUTF8 = content,
-                StatusCode = ResponseStatusCode.OK
-            };
+                response.StatusCode = ResponseStatusCode.OK;
+                response.ContentAsUTF8 = result.Invoke();
+                
+            }
+            //else
+            //{
+            //    response.StatusCode = ResponseStatusCode.Found;
+            //    response.Header.OtherParameters.Add("Location", result.Location);
+            //};
 
             this.ClearRequestParameters();
             return response;
@@ -63,20 +75,15 @@ namespace SimpleMVC.App.MVC.Routers
 
         private void InitControllerName()
         {
-            this.controllerName = ToUpperFirst(this.controllerAction[this.controllerAction.Length - 2]) + MvcContext.Current.ControllersSuffix;
-
+            this.controllerName = this.controllerAction[this.controllerAction.Length - 2].ToUpperFirst() + MvcContext.Current.ControllersSuffix;
         }
 
         private void InitActionName()
         {
-            this.actionName = ToUpperFirst(this.controllerAction[this.controllerAction.Length - 1]);
-        }
-        private string ToUpperFirst(string str)
-        {
-            return str[0].ToString().ToUpper() + str.Substring(1);
+            this.actionName = this.controllerAction[this.controllerAction.Length - 1].ToUpperFirst();
         }
 
-        public void ParseInput(HttpRequest request)
+        public void ParseInput()
         {
             string uri = WebUtility.UrlDecode(request.Url);
             string query = string.Empty;
@@ -102,10 +109,9 @@ namespace SimpleMVC.App.MVC.Routers
             }
 
             //Retrieve POST parameters
-            string postParameters = request.Content;
-            if (postParameters != null)
+            string postParameters = WebUtility.UrlDecode(request.Content);
+            if (!string.IsNullOrEmpty(postParameters))
             {
-                postParameters = WebUtility.UrlDecode(postParameters);
                 string[] pairs = postParameters.Split('&');
                 foreach (var pair in pairs)
                 {
@@ -144,7 +150,7 @@ namespace SimpleMVC.App.MVC.Routers
                         );
                     index++;
                 }
-                else if (param.ParameterType == typeof (HttpRequest))
+                else if (param.ParameterType == typeof(HttpRequest))
                 {
                     this.methodParams[index] = request;
                     index++;
@@ -152,6 +158,11 @@ namespace SimpleMVC.App.MVC.Routers
                 else if (param.ParameterType == typeof(HttpSession))
                 {
                     this.methodParams[index] = request.Session;
+                    index++;
+                }
+                else if (param.ParameterType == typeof(HttpResponse))
+                {
+                    this.methodParams[index] = this.response;
                     index++;
                 }
                 else
@@ -182,8 +193,13 @@ namespace SimpleMVC.App.MVC.Routers
                 }
             }
         }
+
         private IEnumerable<MethodInfo> GetSuitableMethods()
         {
+            var ctr = this.GetController();
+            var type = ctr.GetType();
+            var getMethods = type.GetMethods();
+            var a = getMethods.Where(m => m.Name == this.actionName);
             return this.GetController()
                 .GetType()
                 .GetMethods()
@@ -200,8 +216,7 @@ namespace SimpleMVC.App.MVC.Routers
 
             var type = Type.GetType(controllerType);
 
-            var controller =
-                (Controller)Activator.CreateInstance(type);
+            var controller =(Controller)Activator.CreateInstance(type);
             return controller;
         }
 

@@ -1,10 +1,11 @@
 ﻿using SimpleMVC.App.MVC.Interfaces.Generic;
 using System.Text;
 using SimpleMVC.App.MVC.Interfaces;
+using SimpleMVC.App.ViewModels;
 
 namespace SimpleMVC.App.Views.Users
 {
-    public class Register : IRenderable
+    public class Register : IRenderable//<UserViewModel>
     {
         public string Render()
         {
@@ -18,5 +19,7 @@ namespace SimpleMVC.App.Views.Users
             sb.AppendLine("</form><br/>");
             return sb.ToString();
         }
+
+        //public UserViewModel Model { get; set; }
     }
 }

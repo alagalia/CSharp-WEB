@@ -3,19 +3,28 @@ using SimpleMVC.App.MVC.Interfaces;
 
 namespace SimpleMVC.App.MVC.ViewEngine
 {
-    public class ActionResult: IActionResult
+    public class ActionResult : IActionResult
     {
         public ActionResult(string viewFullQualifedName)
         {
-            this.Action = (IRenderable) Activator.CreateInstance(Type.GetType(viewFullQualifedName));
+            this.Action = (IRenderable)Activator
+                .CreateInstance(Type.GetType(viewFullQualifedName));
         }
-        public string Invoke()
+
+        public ActionResult(string viewFullQualifedName, string location) : this(viewFullQualifedName)
         {
-            return this.Action.Render();
+            this.Location = location;
         }
 
         public IRenderable Action { get; set; }
 
         public string Location { get; }
+
+        public string Invoke()
+        {
+            return this.Action.Render();
+        }
+
+
     }
 }

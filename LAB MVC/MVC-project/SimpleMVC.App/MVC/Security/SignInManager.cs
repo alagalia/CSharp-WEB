@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using SimpleHttpServer.Models;
-using SimpleMVC.App.MVC.Interfaces;
+using SimpleMVC.App.MVC.Interfaces.Security;
 
 namespace SimpleMVC.App.MVC.Security
 {
@@ -15,12 +15,23 @@ namespace SimpleMVC.App.MVC.Security
 
         public bool IsAuthenticated(HttpSession session)
         {
-            var login = this.dbContext.Logins.SingleOrDefault(l => l.SessionId == session.Id && l.IsActive);
-            if (login != null)
+            if (session == null)
             {
-                return true;
+                return false;
             }
-            return false;
+            var sess = dbContext.Logins.FirstOrDefault(s => s.SessionId == session.Id && s.IsActive == true);
+            if (sess == null)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        internal void Logout(HttpSession session)
+        {
+            var login = dbContext.Logins.FirstOrDefault(s => s.SessionId == session.Id && s.IsActive == true);
+            login.IsActive = false;
+            dbContext.SaveChanges();
         }
     }
 }

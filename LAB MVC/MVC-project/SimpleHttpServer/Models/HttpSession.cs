@@ -13,7 +13,7 @@ namespace SimpleHttpServer.Models
             this.parameters= new Dictionary<string, string>();
         }
 
-        public string Id { get; private set; }
+        public string Id { get; set; }
 
         public string this[string key]
         {
@@ -27,7 +27,7 @@ namespace SimpleHttpServer.Models
 
         public void Add(string key, string value)
         {
-            this.parameters[key] = value;
+            this.parameters.Add(key,value);
         }
     }
 }

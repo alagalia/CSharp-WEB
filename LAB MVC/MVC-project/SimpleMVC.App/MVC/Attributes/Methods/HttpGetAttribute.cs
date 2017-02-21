@@ -1,4 +1,4 @@
-﻿namespace SimpleMVC.App.MVC.Attributies.Methods
+﻿namespace SimpleMVC.App.MVC.Attributes.Methods
 {
     public class HttpGetAttribute :HttpMethodAttribute
     {

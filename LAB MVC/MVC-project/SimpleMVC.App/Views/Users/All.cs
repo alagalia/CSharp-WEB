@@ -1,11 +1,10 @@
 ﻿using System.Text;
-using SimpleMVC.App.Models;
 using SimpleMVC.App.MVC.Interfaces.Generic;
 using SimpleMVC.App.ViewModels;
 
 namespace SimpleMVC.App.Views.Users
 {
-    public class All :IRenderable<AllUserLinksViewModel>
+    public class All : IRenderable<AllUserLinksViewModel>
     {
         public string Render()
         {

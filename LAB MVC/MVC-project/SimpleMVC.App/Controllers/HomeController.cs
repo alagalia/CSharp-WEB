@@ -9,5 +9,10 @@ namespace SimpleMVC.App.Controllers
         {
             return View();
         }
+
+        public IActionResult Site()
+        {
+            return View();
+        }
     }
 }

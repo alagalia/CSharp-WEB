@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using SimpleHttpServer.Models;
 using SimpleMVC.App.BindingModels;
 using SimpleMVC.App.Data;
 using SimpleMVC.App.Models;
+using SimpleMVC.App.MVC.Attributes.Methods;
 using SimpleMVC.App.MVC.Attributies.Methods;
 using SimpleMVC.App.MVC.Controllers;
 using SimpleMVC.App.MVC.Interfaces;
@@ -15,7 +17,7 @@ namespace SimpleMVC.App.Controllers
 {
     public class UsersController : Controller
     {
-        public SignInManager SignInManager { get; set; }
+        public SignInManager SignInManager;
 
         public UsersController()
         {
@@ -46,41 +48,26 @@ namespace SimpleMVC.App.Controllers
             return View();
         }
 
-        [HttpGet]
-        public IActionResult Login()
-        {
-            return View();
-        }
+        //public IActionResult<UserViewModel> Register(RegisterUserBindingModel model)
+        //{
+        //    //add user to DB
+        //    var newUser = new User()
+        //    {
+        //        UserName = model.Username,
+        //        Password = model.Password
+        //    };
 
-        [HttpPost]
-        public IActionResult Login(LoginUserBindingModel model, HttpSession session)
-        {
-            string username = model.Username;
-            string password = model.Password;
-            string sessionId = session.Id;
-
-
-            using (var context = new NoteAppContext())
-            {
-                User user = context.Users.SingleOrDefault(u => u.UserName == username);
-                if (user != null)
-                {
-                    if (user.Password == password)
-                    {
-                        context.Logins.Add(new Login() { IsActive = true, SessionId = sessionId, User = user });
-                        try
-                        {
-                            context.SaveChanges();
-                        }
-                        catch (System.Exception x)
-                        {
-                            System.Console.WriteLine(x);
-                        }
-                    }
-                }
-            }
-            return View();
-        }
+        //    using (var context = new NoteAppContext())
+        //    {
+        //        context.Users.Add(newUser);
+        //        context.SaveChanges();
+        //    }
+        //    var viewModel = new UserViewModel()
+        //    {
+        //        Username = model.Username
+        //    };
+        //    return View(viewModel);
+        //}
 
         //[HttpGet]
         //public IActionResult<AllUsernamesViewModel> All()
@@ -101,14 +88,16 @@ namespace SimpleMVC.App.Controllers
         //}
 
         [HttpGet]
-        public IActionResult<AllUserLinksViewModel> All(HttpSession session)
+        public IActionResult<AllUserLinksViewModel> All(HttpSession session, HttpResponse response)
         {
-            if (this.SignInManager.IsAuthenticated(session))
+            if (!this.SignInManager.IsAuthenticated(session))
             {
-                //TODO redirect
-                //List<AllUserLinksViewModel> list = new List<AllUserLinksViewModel>();
-                //return Redirect(list.AsEnumerable(), "/users/login");
+                Redirect(response,"/users/login");
+                Console.WriteLine("REDIRECT");
+                return null;
             }
+
+           
             Dictionary<int, string> nameIdDictionary = new Dictionary<int, string>();
             using (var context = new NoteAppContext())
             {
@@ -125,6 +114,52 @@ namespace SimpleMVC.App.Controllers
             };
 
             return View(viewModel);
+        }
+
+        [HttpPost]
+        public IActionResult Logout(HttpSession session)
+        {
+            this.SignInManager.Logout(session);
+            return View("Home", "Index");
+        }
+
+        [HttpGet]
+        public IActionResult<GreetViewModel> Greet(HttpSession session)
+        {
+            var viewModel = new GreetViewModel()
+            {
+                SessionId = session.Id
+            };
+            return View(viewModel);
+        }
+
+        [HttpGet]
+        public IActionResult Login()
+        {
+            return View();
+        }
+
+
+        [HttpPost]
+        public IActionResult Login(LoginUserBindingModel model, HttpSession session, HttpResponse response)
+        {
+            using (var context = new NoteAppContext())
+            {
+                var user = context.Users.FirstOrDefault(u => u.UserName == model.Username && u.Password == model.Password);
+                if (user != null)
+                {
+                    context.Logins.Add(new Login()
+                    {
+                        SessionId = session.Id,
+                        User = user,
+                        IsActive = true
+                    });
+                    context.SaveChanges();
+                    Redirect(response, "/home/index");
+                    return null;
+                }
+            }
+            return View();
         }
 
 
@@ -170,12 +205,6 @@ namespace SimpleMVC.App.Controllers
             return Profile(model.UserId);
         }
 
-        [HttpGet]
-        public IActionResult<GreetViewModel> Greet(HttpSession session)
-        {
-            var viewModel = new GreetViewModel()
-            { SessionId = session.Id };
-            return View(viewModel);
-        }
+        
     }
 }

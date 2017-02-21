@@ -11,6 +11,8 @@ namespace SimpleMVC.App.Views.Home
             StringBuilder sb =  new StringBuilder("<h2>NotesApp</h2>");
             sb.AppendLine("<li><a href=\"/home/users/all\">All users<a/></li>");
             sb.AppendLine("<li><a href=\"/home/users/register\">Register user</a></li>");
+            sb.AppendLine("<li><a href=\"/home/users/greet\">Greet/Logout</a></li>");
+
             return sb.ToString();
         }
     }

@@ -59,7 +59,8 @@
     <Compile Include="BindingModels\LoginUserBindingModel.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Login.cs" />
-    <Compile Include="MVC\Interfaces\IDbIdentityContext.cs" />
+    <Compile Include="MVC\Extensions\StringExtentions.cs" />
+    <Compile Include="MVC\Interfaces\Security\IDbIdentityContext.cs" />
     <Compile Include="MVC\Interfaces\IRedirectable.cs" />
     <Compile Include="MVC\Security\SignInManager.cs" />
     <Compile Include="ViewModels\AllUserLinksViewModel.cs" />
@@ -90,7 +91,9 @@
     <Compile Include="RouteTable.cs" />
     <Compile Include="ViewModels\AllUsernamesViewModel.cs" />
     <Compile Include="ViewModels\UserProfileViewModel.cs" />
+    <Compile Include="ViewModels\UserViewModel.cs" />
     <Compile Include="Views\Home\Index.cs" />
+    <Compile Include="Views\Home\Site.cs" />
     <Compile Include="Views\Users\All.cs" />
     <Compile Include="Views\Users\Greet.cs" />
     <Compile Include="Views\Users\Login.cs" />

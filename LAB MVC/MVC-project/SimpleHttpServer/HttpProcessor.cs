@@ -18,7 +18,7 @@ namespace SimpleHttpServer
         private HttpResponse Response;
         private IDictionary<string, HttpSession> Sessions;
 
-        public HttpProcessor(IEnumerable<Route> routes, IDictionary<string, HttpSession> sessions )
+        public HttpProcessor(IEnumerable<Route> routes, IDictionary<string, HttpSession> sessions)
         {
             this.Routes = new List<Route>(routes);
             this.Sessions = sessions;
@@ -86,6 +86,10 @@ namespace SimpleHttpServer
                         header.AddCookie(cookie);
                     }
                 }
+                else if (name == "Location")
+                {
+                    header.Location = value;
+                }
                 else if (name == "Content-Length")
                 {
                     header.ContentLength = value;
@@ -116,9 +120,6 @@ namespace SimpleHttpServer
 
                 content = Encoding.ASCII.GetString(bytes);
             }
-
-
-
 
             var request = new HttpRequest()
             {
@@ -170,7 +171,7 @@ namespace SimpleHttpServer
                 }
                 var response = route.Callable(Request);
 
-                if (Request.Header.Cookies.Contains("sessionId"))
+                if (!Request.Header.Cookies.Contains("sessionId"))
                 {
                     Cookie sessionCookie = new Cookie("sessionId", this.Request.Session.Id + "; HttpOnly; path=/");
                     response.Header.AddCookie(sessionCookie);

@@ -7,9 +7,8 @@ namespace SimpleHttpServer.Utilities
     {
         public  static HttpSession Create()
         {
-            var sessionId = "Sid" + Guid.NewGuid();
-            //TODO check if this Guid.NewGuid() work
-
+            //var sessionId = "SessionId" + Guid.NewGuid();
+            var sessionId = new Random().Next().ToString();
             HttpSession session = new HttpSession(sessionId);
             return session;
         }

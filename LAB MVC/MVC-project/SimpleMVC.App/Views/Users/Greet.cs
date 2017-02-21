@@ -12,6 +12,9 @@ namespace SimpleMVC.App.Views.Users
         {
             StringBuilder sb = new StringBuilder();
             sb.AppendLine("</h3>Hello user with session id: " + this.Model.SessionId);
+            sb.AppendLine("<form action=\"logout\" method=\"post\"><br/>");
+            sb.AppendLine("<input type=\"submit\" value=\"logout\">");
+            sb.AppendLine("</form><br/>");
             return sb.ToString();
         }
 
