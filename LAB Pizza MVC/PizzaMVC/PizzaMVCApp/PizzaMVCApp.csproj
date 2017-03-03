@@ -55,10 +55,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppStart.cs" />
+    <Compile Include="BindingModels\AddPizzaBindinModel.cs" />
     <Compile Include="BindingModels\SignInBidingModel.cs" />
     <Compile Include="BindingModels\SignUpBindinModel.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\MenuController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Data\Data.cs" />
     <Compile Include="Data\PizzaContext.cs" />
@@ -69,12 +71,19 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RouteTable.cs" />
     <Compile Include="Security\SignInManager.cs" />
+    <Compile Include="Services\PizzaService.cs" />
     <Compile Include="Services\Service.cs" />
     <Compile Include="Services\SessionService.cs" />
     <Compile Include="Services\UserService.cs" />
     <Compile Include="Utillities\WebUtils.cs" />
+    <Compile Include="ViewModels\SuggestionViewModel.cs" />
+    <Compile Include="ViewModels\PizzaViewModel.cs" />
+    <Compile Include="ViewModels\YourSuggestionsViewModel.cs" />
     <Compile Include="Views\Home\Index.cs" />
     <Compile Include="Views\Home\IndexLogged.cs" />
+    <Compile Include="Views\Menu\Add.cs" />
+    <Compile Include="Views\Menu\Index.cs" />
+    <Compile Include="Views\Menu\Suggestions.cs" />
     <Compile Include="Views\Users\SignIn.cs" />
     <Compile Include="Views\Users\SignUp.cs" />
   </ItemGroup>
@@ -82,9 +91,7 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ViewModels\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\SimpleHttpServer\SimpleHttpServer.csproj">
       <Project>{9E139539-C272-488A-BFCF-CADDF458DF9D}</Project>

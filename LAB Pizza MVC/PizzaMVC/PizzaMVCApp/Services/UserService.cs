@@ -2,6 +2,7 @@
 using PizzaMVCApp.BindingModels;
 using PizzaMVCApp.Data;
 using PizzaMVCApp.Models;
+using SimpleHttpServer.Models;
 
 namespace PizzaMVCApp.Services
 {
@@ -21,10 +22,24 @@ namespace PizzaMVCApp.Services
             Context.SaveChanges();
         }
 
-        public User SignInUser(SignInBidingModel model)
+        public User SignInUser(SignInBidingModel model, HttpSession session)
         {
             User user =
                 Context.Users.FirstOrDefault(u => u.Password == model.SignInPassword && u.Email == model.SignInEmail);
+            
+
+            if (user != null)
+            {
+                Session sessionEntity = new Session()
+                {
+                    SessionId = session.Id,
+                    IsActive = true,
+                    UserId = user.Id
+                };
+
+                Context.Sessions.Add(sessionEntity);
+                Context.SaveChanges();
+            }
             return user;
         }
 

@@ -28,7 +28,7 @@ namespace PizzaMVCApp.Security
             if (sessionEntity != null)
             {
                 sessionEntity.IsActive = false;
-                session.Id = new Random().Next().ToString();
+                session.Id = new Random().Next().ToString();//TODO set to cookies!
                 this.dbContext.SaveChanges();
             }
         }

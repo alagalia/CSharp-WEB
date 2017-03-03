@@ -48,6 +48,22 @@ namespace PizzaMVCApp
                     },
                     new Route()
                     {
+                        Name = "Menu CSS",
+                        Method = RequestMethod.GET,
+                        UrlRegex = "css/menu.css$",
+                        Callable = (request) =>
+                        {
+                            var response = new HttpResponse()
+                            {
+                                StatusCode = ResponseStatusCode.Ok,
+                                ContentAsUTF8 = File.ReadAllText("../../content/css/menu.css")
+                            };
+                            response.Header.ContentType = "text/css";
+                            return response;
+                        }
+                    },
+                    new Route()
+                    {
                         Name = "Pizza1 JPG",
                         Method = RequestMethod.GET,
                         UrlRegex = "pizza_1.jpg$",

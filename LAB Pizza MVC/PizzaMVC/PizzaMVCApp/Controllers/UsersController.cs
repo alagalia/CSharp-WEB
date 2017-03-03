@@ -1,4 +1,5 @@
-﻿using PizzaMVCApp.BindingModels;
+﻿using System;
+using PizzaMVCApp.BindingModels;
 using PizzaMVCApp.Models;
 using PizzaMVCApp.Security;
 using PizzaMVCApp.Services;
@@ -29,7 +30,7 @@ namespace PizzaMVCApp.Controllers
         public IActionResult SignIn(SignInBidingModel model, HttpSession session)
         {
             UserService userService = new UserService(Data.Data.Context);
-            var user = userService.SignInUser(model);
+            var user = userService.SignInUser(model, session);
             if (user != null)
             {
                 SessionService sessionService = new SessionService(Data.Data.Context);
@@ -60,7 +61,9 @@ namespace PizzaMVCApp.Controllers
         public IActionResult LogOut(HttpSession session)
         {
             this.signInManager.LogOut(session);
-            return this.View("Home", "Index");
+            Console.WriteLine(session.Id);
+            session.Clear();
+            return this.View("Home","Index");
         }   
     }
 }
