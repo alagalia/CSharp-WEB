@@ -89,5 +89,19 @@ namespace PizzaForumApp.Controllers
             return this.View(model);
         }
 
+        [HttpGet]
+        public void DeleteTopic(HttpSession session, HttpResponse response, HttpRequest request, int id)
+        {
+            AuthenticationManager.GetAuthenticateduser(session.Id);
+
+            if (!AuthenticationManager.IsAuthenticated(session.Id))
+            {
+                this.Redirect(response, "/home/topics");
+                return;
+            }
+            service.DeleteTopic(id);
+            this.Redirect(response, "/home/topics");
+        }
+
     }
 }

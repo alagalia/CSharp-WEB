@@ -9,8 +9,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleHttpServer", "SimpleH
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleMVC", "SimpleMVC\SimpleMVC.csproj", "{F2EF3059-AA6C-45C8-9DBB-9D36E62AF1B8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PizzaMVCApp", "PizzaMVCApp\PizzaMVCApp.csproj", "{D6CC29D6-936F-4B56-8ED1-50B082A515B5}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -43,14 +41,6 @@ Global
 		{F2EF3059-AA6C-45C8-9DBB-9D36E62AF1B8}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F2EF3059-AA6C-45C8-9DBB-9D36E62AF1B8}.Release|x86.ActiveCfg = Release|Any CPU
 		{F2EF3059-AA6C-45C8-9DBB-9D36E62AF1B8}.Release|x86.Build.0 = Release|Any CPU
-		{D6CC29D6-936F-4B56-8ED1-50B082A515B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D6CC29D6-936F-4B56-8ED1-50B082A515B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D6CC29D6-936F-4B56-8ED1-50B082A515B5}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{D6CC29D6-936F-4B56-8ED1-50B082A515B5}.Debug|x86.Build.0 = Debug|Any CPU
-		{D6CC29D6-936F-4B56-8ED1-50B082A515B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D6CC29D6-936F-4B56-8ED1-50B082A515B5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D6CC29D6-936F-4B56-8ED1-50B082A515B5}.Release|x86.ActiveCfg = Release|Any CPU
-		{D6CC29D6-936F-4B56-8ED1-50B082A515B5}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -107,5 +107,11 @@ namespace PizzaForumApp.Services
             model.Topics = topics;
             return model;
         }
+
+        public void DeleteTopic(int id)
+        {
+            this.Context.Topics.Remove(Context.Topics.Find(id));
+            Context.SaveChanges();
+        }
     }
 }
