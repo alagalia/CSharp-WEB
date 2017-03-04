@@ -33,6 +33,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper, Version=5.1.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.5.1.1\lib\net45\AutoMapper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
       <Private>True</Private>
@@ -59,9 +63,13 @@
     <Compile Include="BindingModels\CategoriesNewBindingModel.cs" />
     <Compile Include="BindingModels\LoginBidingModel.cs" />
     <Compile Include="BindingModels\RegisterBindingModel.cs" />
+    <Compile Include="BindingModels\ReplyFormBindingModel.cs" />
+    <Compile Include="BindingModels\TopicNewBindingModel.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="Controllers\CategoriesController.cs" />
     <Compile Include="Controllers\ForumController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\TopicsController.cs" />
     <Compile Include="Data\Data.cs" />
     <Compile Include="Data\PizzaForumContext.cs" />
     <Compile Include="Migrations\Configuration.cs" />
@@ -75,18 +83,32 @@
     <Compile Include="Security\AuthenticationManager.cs" />
     <Compile Include="Services\CategoriesService.cs" />
     <Compile Include="Services\ForumService.cs" />
+    <Compile Include="Services\HomeService.cs" />
     <Compile Include="Services\Service.cs" />
+    <Compile Include="Services\TopicsService.cs" />
     <Compile Include="Utillities\WebUtils.cs" />
     <Compile Include="ViewBag.cs" />
     <Compile Include="ViewModels\CategoriesAllViewModel.cs" />
     <Compile Include="ViewModels\CategoryEditViewModel.cs" />
     <Compile Include="ViewModels\CategorySectionViewModel.cs" />
+    <Compile Include="ViewModels\ForumUserProfileViewModel.cs" />
+    <Compile Include="ViewModels\HomeCategoriesViewModel.cs" />
+    <Compile Include="ViewModels\HomeTopicsViewModel.cs" />
     <Compile Include="ViewModels\LoggedViewModel.cs" />
+    <Compile Include="ViewModels\topics\TopicDetailsReplySectionViewModel.cs" />
+    <Compile Include="ViewModels\topics\TopicDetailsTopicSectionViewModel.cs" />
+    <Compile Include="ViewModels\topics\TopicDetailsViewModel.cs" />
     <Compile Include="Views\Categories\All.cs" />
     <Compile Include="Views\Categories\Edit.cs" />
     <Compile Include="Views\Categories\New.cs" />
+    <Compile Include="Views\Categories\Topics.cs" />
     <Compile Include="Views\Forum\Login.cs" />
+    <Compile Include="Views\Forum\Profile.cs" />
     <Compile Include="Views\Forum\Register.cs" />
+    <Compile Include="Views\Home\Categories.cs" />
+    <Compile Include="Views\Home\Topics.cs" />
+    <Compile Include="Views\Topics\Details.cs" />
+    <Compile Include="Views\Topics\New.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

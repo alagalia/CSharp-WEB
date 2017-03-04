@@ -3,10 +3,12 @@ using PizzaForumApp.Models;
 using PizzaForumApp.Security;
 using PizzaForumApp.Services;
 using PizzaForumApp.Utillities;
+using PizzaForumApp.ViewModels;
 using SimpleHttpServer.Models;
 using SimpleMVC.Attributes.Methods;
 using SimpleMVC.Controllers;
 using SimpleMVC.Interfaces;
+using SimpleMVC.Interfaces.Generic;
 
 namespace PizzaForumApp.Controllers
 {
@@ -66,16 +68,26 @@ namespace PizzaForumApp.Controllers
             Redirect(response, "/forum/login");
         }
 
-        //[HttpGet]
-        //public IActionResult Index(HttpSession session)
-        //{
-        //    if (this.signInManager.IsAuthenticated(session))
-        //    {
-        //        return this.View("Home", "IndexLogged");
-        //    }
+        [HttpGet]
+        public void Logout(HttpResponse response, HttpSession session)
+        {
+            AuthenticationManager.Logout(response, session.Id);
+            this.Redirect(response, "/home/topics");
+        }
 
-        //    return View();
-        //}
+        [HttpGet]
+        public IActionResult<ForumUserProfileViewModel> Profile(HttpSession session, HttpResponse response, int id)
+        {
+            User loggedUser = AuthenticationManager.GetAuthenticateduser(session.Id);
+            
+            if (!AuthenticationManager.IsAuthenticated(session.Id))
+            {
+                this.Redirect(response, "/home/topics");
+                return null;
+            }
+            ForumUserProfileViewModel model = service.GetUserInfoFromDb(id, loggedUser.Id);
+            return this.View(model);
+        }
 
     }
 }

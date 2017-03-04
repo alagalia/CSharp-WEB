@@ -1,45 +1,45 @@
 ﻿using System;
 using System.Linq;
+using System.Runtime.Remoting.Contexts;
 using PizzaForumApp.Data;
 using PizzaForumApp.Models;
+using PizzaForumApp.Views.Forum;
 using SimpleHttpServer.Models;
+using SimpleHttpServer.Utilities;
 
 namespace PizzaForumApp.Security
 {
     public class AuthenticationManager
     {
-        private static PizzaForumContext dbContext = Data.Data.Context;
+        private static PizzaForumContext context = Data.Data.Context;
 
         public static bool IsAuthenticated(string sessionId)
         {
-            bool isAuthenticated = dbContext.Sessions.Any(s => s.SessionId == sessionId && s.IsActive);
+            bool isAuthenticated = context.Sessions.Any(s => s.SessionId == sessionId && s.IsActive);
             return isAuthenticated;
         }
 
         public static User GetAuthenticateduser(string sessionId)
         {
-            User userAuthenticated = dbContext.Sessions.FirstOrDefault(s => s.SessionId == sessionId && s.IsActive).User;
-            ViewBag.Bag["username"]= userAuthenticated.Username;
+            User userAuthenticated = context.Sessions.FirstOrDefault(s => s.SessionId == sessionId && s.IsActive)?.User;
+            if (userAuthenticated != null)
+            {
+                ViewBag.Bag["username"]= userAuthenticated.Username;
+            }
             return userAuthenticated;
+
         }
 
-
-
-        public void Logout(HttpSession httpSession)
+        public static void Logout(HttpResponse response, string sessionId)
         {
-            using (dbContext)
-            {
-                Session session = dbContext
-                    .Sessions
-                    .FirstOrDefault(s => s.SessionId == httpSession.Id);
+            ViewBag.Bag["username"] = null;
+            Session currentSession = context.Sessions.FirstOrDefault(s => s.SessionId == sessionId);
+            if (currentSession != null) currentSession.IsActive = false;
+            context.SaveChanges();
 
-                if (session != null)
-                {
-                    session.IsActive = false;
-                    httpSession.Id = new Random().Next().ToString();
-                    dbContext.SaveChanges();
-                }
-            }
+            var session = SessionCreator.Create();
+            var sessionCookie = new Cookie("sessionId", session.Id + "; HttpOnly; path=/");
+            response.Header.AddCookie(sessionCookie);
         }
     }
 }

@@ -1,9 +1,12 @@
-﻿using System.Linq;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 using PizzaForumApp.BindingModels;
 using PizzaForumApp.Controllers;
 using PizzaForumApp.Data;
 using PizzaForumApp.Models;
+using PizzaForumApp.ViewModels;
 
 namespace PizzaForumApp.Services
 {
@@ -81,6 +84,28 @@ namespace PizzaForumApp.Services
                 IsActive = true
             });
             this.Context.SaveChanges();
+        }
+
+        public ForumUserProfileViewModel GetUserInfoFromDb(int clickedUserId, int currentUserId)
+        {
+            User clickedUser = Context.Users.Find(clickedUserId);
+            ForumUserProfileViewModel model = new ForumUserProfileViewModel()
+            {
+                ClickedUserId = clickedUserId,
+                ClickedUsername = clickedUser.Username,
+                CurrentUserId = currentUserId
+            };
+            IEnumerable<HomeTopicsViewModel> topics = clickedUser.Topics.Select(t => new HomeTopicsViewModel()
+            {
+                Author = clickedUser,
+                Category = t.Category,
+                PublushDate = t.PublishDate,
+                RepliesCount = t.Replies.Count,
+                Title = t.Title,
+                TopicId = t.Id
+            });
+            model.Topics = topics;
+            return model;
         }
     }
 }

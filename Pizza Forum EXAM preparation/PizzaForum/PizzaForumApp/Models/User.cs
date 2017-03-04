@@ -16,12 +16,8 @@ namespace PizzaForumApp.Models
         public string Email { get; set; }
 
         public string Password { get; set; }
-
-        //public string ConfitrmPassword { get; set; }
-
+        
         public bool IsAdimn { get; set; }
-
-        //public DateTime? Birthday { get; set; }
 
         public virtual ICollection<Topic> Topics { get; set; }
     }

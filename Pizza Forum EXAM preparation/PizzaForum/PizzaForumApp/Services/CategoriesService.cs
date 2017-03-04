@@ -37,7 +37,7 @@ namespace PizzaForumApp.Services
         public CategoryEditViewModel GetCategoryName(int id)
         {
             Category category = Context.Categories.FirstOrDefault(c => c.Id == id);
-            CategoryEditViewModel model = new CategoryEditViewModel {Category = category};
+            CategoryEditViewModel model = new CategoryEditViewModel { Category = category };
             return model;
         }
 
@@ -49,6 +49,31 @@ namespace PizzaForumApp.Services
                 searchedCategory.Name = categoryEditBindingModel.CategoryName;
                 Context.SaveChanges();
             }
+        }
+
+        public void DeleteCategoryinDb(int id)
+        {
+            Context.Categories.Remove(Context.Categories.Find(id));
+            Context.SaveChanges();
+        }
+
+        public IEnumerable<HomeTopicsViewModel> GetAllCategoriesFromDbNotForAdminView(User user, int categoryId)
+        {
+            IEnumerable<HomeTopicsViewModel> model = null;
+            Category category = Context.Categories.Find(categoryId);
+            if (category != null)
+            {
+                model = category.Topics.Select(
+                   t => new HomeTopicsViewModel()
+                   {
+                       Title = t.Title,
+                       Author = t.Author,
+                       Category = t.Category,
+                       PublushDate = t.PublishDate,
+                       RepliesCount = t.Replies.Count
+                   });
+            }
+            return model;
         }
     }
 }
