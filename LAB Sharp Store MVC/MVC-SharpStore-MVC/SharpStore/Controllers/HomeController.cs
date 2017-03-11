@@ -78,7 +78,7 @@ namespace SharpStore.Controllers
         {
             PurchaseService service = new PurchaseService(Data.Data.Context);
             service.AddPurchaseToDb(purchaseBindingModel);
-            return this.View("Home", "Index");
+             
         }
     }
 }
